@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agri-Culture</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Agri-Culture connects agricultural processors with verified farmers, cooperatives and aggregators. Starting with cassava in Nigeria and Ghana.">
+<meta property="og:title" content="Agri-Culture: reliable supply for Africa's agricultural processors">
+<meta property="og:description" content="We connect processors with verified farmers, cooperatives and aggregators. Starting with cassava.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: B2B single page; full-width colour bands, 1200px inner column. Single committed light look (leaf green + oak brown). */
+:root{
+  --ground:#F5F3EC; --paper:#FFFFFF; --line:#E2DDD0;
+  --ink:#1E2A1F; --muted:#4A564B; --soft:#5E685F;
+  --leaf:#2F6B3A; --leaf-deep:#1F3D25; --leaf-tint:#EAF1E8; --leaf-chip:#E3EDE2;
+  --oak:#7A4E2A; --oak-tint:#F3EADF; --oak-light:#E6C9A6; --oak-label:#C9A27A;
+  --on-dark:#F5F3EC; --on-dark-muted:#C9D1C7;
+  --display:'Fraunces', Georgia, 'Times New Roman', serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--ground)}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+a{color:var(--leaf)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--oak);outline-offset:3px}
+
+.band{padding-left:max(20px, env(safe-area-inset-left,0px));padding-right:max(20px, env(safe-area-inset-right,0px));padding-block:96px}
+.wrap{max-width:1200px;margin:0 auto}
+.dark{background:var(--leaf-deep);color:var(--on-dark)}
+.white{background:var(--paper);border-block:1px solid var(--line)}
+
+.wordmark{font-family:var(--display);font-weight:700;letter-spacing:-0.02em;text-decoration:none}
+.agri{color:var(--leaf)} .culture{color:var(--oak)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--oak)}
+.dark .eyebrow{color:var(--oak-label)}
+.h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,4.6vw,48px);line-height:1.08;margin-top:14px;max-width:22ch}
+.lede{margin-top:18px;font-size:18px;color:var(--muted);max-width:62ch}
+.dark .lede{color:#D8DED6}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(245,243,236,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-left:max(20px, env(safe-area-inset-left,0px));padding-right:max(20px, env(safe-area-inset-right,0px))}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:14px}
+.nav .wordmark{font-size:26px}
+.nav-links{display:flex;gap:28px;font-size:15px;font-weight:600}
+.nav-links a{color:var(--muted);text-decoration:none}
+.nav-links a:hover{color:var(--leaf)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:999px;border:0;font:inherit;font-weight:700;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .15s ease, background .15s ease}
+.btn:hover{transform:translateY(-1px)}
+@media (prefers-reduced-motion: reduce){.btn:hover{transform:none}}
+.btn-leaf{background:var(--leaf);color:#fff} .btn-leaf:hover{background:#255630}
+.btn-oak{background:var(--oak);color:#fff} .btn-oak:hover{background:#653F21}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid #B9C9B6}
+.nav .btn{min-height:44px;font-size:15px;padding:0 20px}
+
+.hero{padding-block:112px 96px}
+.hero .wrap{display:flex;flex-wrap:wrap;gap:64px;align-items:center}
+.hero-copy{flex:999 1 560px;min-width:0}
+.hero .mark{font-family:var(--display);font-size:clamp(20px,2.4vw,26px);font-weight:700;margin-bottom:22px}
+.hero h1{font-family:var(--display);font-size:clamp(44px,6.4vw,76px);line-height:1.02;font-weight:700;letter-spacing:-0.025em}
+.hero h1 em{font-style:normal;color:var(--leaf)}
+.hero .lede{font-size:19px}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.hero-side{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.listing{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px}
+.listing .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.listing .t{font-weight:700;font-size:20px;margin-top:8px}
+.listing .d{color:var(--muted);font-size:15px;margin-top:2px}
+.swap{display:flex;justify-content:center;color:var(--oak)}
+.caption{font-size:14px;color:var(--soft);text-align:center}
+
+.split{display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start}
+.split > .intro{flex:1 1 360px;min-width:0}
+.tiles{flex:2 1 560px;min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.tile{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:22px}
+.tile b{display:block;font-size:18px}
+.tile span{display:block;margin-top:6px;color:var(--on-dark-muted);line-height:1.5;font-size:16px}
+
+.steps{margin:48px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.steps li{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px}
+.num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--leaf-chip);color:var(--leaf)}
+.steps h3{font-family:var(--display);font-size:22px;font-weight:600;margin:16px 0 8px}
+.steps p{color:var(--muted);font-size:16px;line-height:1.55}
+
+.audience{margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.aud{border-radius:20px;padding:34px}
+.aud h3{font-family:var(--display);font-size:30px;margin-bottom:16px}
+.aud ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.aud li{display:flex;gap:12px;line-height:1.5}
+.aud li svg{flex:none;margin-top:3px}
+.aud .btn{margin-top:26px}
+.a-proc{background:var(--leaf-tint)} .a-proc h3{color:var(--leaf)}
+.a-farm{background:var(--oak-tint)} .a-farm h3{color:var(--oak)}
+
+.checks{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.check{border-top:3px solid var(--leaf);padding-top:14px}
+.check b{display:block;font-size:17px}
+.check span{display:block;margin-top:4px;color:var(--muted);font-size:15px;line-height:1.5}
+
+.crops{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px}
+.crop{display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:var(--paper);font-weight:600}
+.crop.now{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.crop small{font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+
+.about{display:flex;flex-wrap:wrap;gap:48px;align-items:center}
+.about .photo{flex:0 1 260px;aspect-ratio:1;max-width:100%;border-radius:24px;background:var(--leaf-tint);border:1px dashed #B9C9B6;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--soft);font-size:14px;padding:20px}
+.about .text{flex:1 1 420px;min-width:0}
+.about p+p{margin-top:14px}
+
+.contact{background:var(--leaf-tint);border-top:1px solid #D5E2D3}
+.contact .wrap{display:flex;flex-wrap:wrap;gap:48px}
+.contact .intro{flex:1 1 360px;min-width:0}
+.ways{flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.way{background:var(--paper);border:1px solid #D5E2D3;border-radius:18px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.way .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--oak)}
+.way .v{font-size:18px;font-weight:700;margin-top:2px;user-select:all;overflow-wrap:anywhere}
+.copy{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #B9C9B6;background:var(--ground);font:inherit;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink)}
+.reply{font-size:15px;color:var(--soft)}
+
+footer{padding-block:36px;border-top:1px solid var(--line);padding-left:max(20px, env(safe-area-inset-left,0px));padding-right:max(20px, env(safe-area-inset-right,0px))}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+footer .wordmark{font-size:22px}
+footer p{font-size:14px;color:var(--soft)}
+
+@media (max-width:860px){
+  .nav-links{display:none}
+  .band{padding-block:72px}
+  .hero{padding-block:64px 64px}
+}
+</style>
+</head>
+<body style="margin:0">
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" class="wordmark"><span class="agri">Agri-</span><span class="culture">Culture</span></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#who">Processors &amp; farmers</a>
+      <a href="#about">About</a>
+      <a href="https://www.agri-culture.uk/assessment.html">Supply gap tool</a>
+    </nav>
+    <a href="#contact" class="btn btn-leaf">Get in touch</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="band hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="mark"><span class="agri">Agri-</span><span class="culture">Culture</span></p>
+      <h1>Reliable supply for Africa’s <em>agricultural processors</em>.</h1>
+      <p class="lede">We connect processors with verified farmers, cooperatives and aggregators who meet their standards, so factories run closer to capacity and farmers have buyers they can count on. We’re starting with cassava in Nigeria and Ghana.</p>
+      <div class="cta-row">
+        <a href="#processors" class="btn btn-leaf">I’m a processor</a>
+        <a href="#farmers" class="btn btn-oak">I’m a farmer or co-op</a>
+      </div>
+    </div>
+    <div class="hero-side" aria-label="Example match">
+      <div class="listing"><p class="k" style="color:var(--oak)">Processor needs</p><p class="t">Fresh cassava roots</p><p class="d">200 tonnes a week · starch grade · delivered to factory</p></div>
+      <div class="swap"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg></div>
+      <div class="listing"><p class="k" style="color:var(--leaf)">Verified supply</p><p class="t">Farmer cooperative</p><p class="d">Harvest-ready · volumes and quality checked</p></div>
+      <p class="caption">Example only. Every match starts from what you actually need.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band dark">
+  <div class="wrap split">
+    <div class="intro">
+      <p class="eyebrow">The problem we solve</p>
+      <h2 class="h2">Factories near the farms still can’t get enough supply.</h2>
+      <p class="lede">Many processors run well below capacity because supply from smallholders is irregular. Meanwhile, farmers struggle to find dependable buyers and get paid on time.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile"><b>Inconsistent volumes</b><span>Supply swings week to week, so lines sit idle.</span></div>
+      <div class="tile"><b>Quality gaps</b><span>Roots arrive the wrong grade, too old, or mixed.</span></div>
+      <div class="tile"><b>Hard to organise</b><span>Thousands of small farmers, no single point of contact.</span></div>
+      <div class="tile"><b>Side-selling</b><span>Agreed supply goes to whoever pays first.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2 class="h2">From your requirements to a supplier you can rely on.</h2>
+    <ol class="steps">
+      <li><span class="num">1</span><h3>Tell us what you need</h3><p>Volumes, specifications, delivery point and timing.</p></li>
+      <li><span class="num">2</span><h3>We source and verify</h3><p>We find farmers, co-ops and aggregators that fit, and check their location, capacity and quality.</p></li>
+      <li><span class="num">3</span><h3>We introduce and coordinate</h3><p>Samples first, then a trial order. We help agree terms on inspection, delivery and payment.</p></li>
+      <li><span class="num">4</span><h3>Supply that keeps coming</h3><p>We stay involved, track performance and add suppliers as your demand grows.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="who" class="band white">
+  <div class="wrap">
+    <p class="eyebrow">Who we work with</p>
+    <h2 class="h2">Built for both sides of the deal.</h2>
+    <div class="audience">
+      <div class="aud a-proc" id="processors">
+        <h3>For processors</h3>
+        <ul>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6B3A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>A wider pool of suppliers who meet your specifications</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6B3A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Supply checked before it reaches your gate</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6B3A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>One point of contact instead of hundreds</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6B3A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Higher, steadier capacity utilisation</li>
+        </ul>
+        <div class="cta-row" style="margin-top:26px">
+          <a href="https://www.agri-culture.uk/assessment.html" class="btn btn-leaf" style="margin-top:0">Measure your supply gap</a>
+          <a href="#contact" class="btn btn-ghost" style="margin-top:0">Talk to us</a>
+        </div>
+        <p style="margin-top:12px;font-size:14px;color:var(--soft)">A 5-minute tool: see your capacity in use, your shortfall and your critical months.</p>
+      </div>
+      <div class="aud a-farm" id="farmers">
+        <h3>For farmers &amp; co-ops</h3>
+        <ul>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A4E2A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Introductions to processors who buy regularly</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A4E2A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Clear specifications, so you know what sells</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A4E2A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Agreed terms on price, delivery and payment</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7A4E2A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Free to join</li>
+        </ul>
+        <a href="#contact" class="btn btn-oak">List your produce</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">What “verified” means</p>
+    <h2 class="h2">We check suppliers before we introduce them.</h2>
+    <div class="checks">
+      <div class="check"><b>Identity &amp; location</b><span>Who they are, where they farm, who leads the group.</span></div>
+      <div class="check"><b>Capacity</b><span>Hectares, expected harvest and realistic volumes.</span></div>
+      <div class="check"><b>Quality</b><span>Variety, age at harvest and fit with your specification.</span></div>
+      <div class="check"><b>Track record</b><span>References from people they’ve supplied before.</span></div>
+    </div>
+    <div class="crops" aria-label="Crops">
+      <span class="crop now">Cassava <small>Now</small></span>
+      <span class="crop">Maize &amp; soy <small>Next</small></span>
+      <span class="crop">Shea <small>Next</small></span>
+      <span class="crop">Cashew <small>Next</small></span>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="band white">
+  <div class="wrap about">
+    <div class="photo">[Your photo]</div>
+    <div class="text">
+      <p class="eyebrow">About</p>
+      <h2 class="h2">Agriculture runs on relationships.</h2>
+      <p class="lede">Agri-Culture was founded by [Your name], a UK-based Ghanaian building a network that connects the people behind African agriculture.</p>
+      <p class="lede">The name says it: agriculture is the industry, culture is the community. Who you know shouldn’t decide how far a farm or a factory can grow. We start by listening to processors and farmers, then build the connections they’re missing.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="band contact">
+  <div class="wrap">
+    <div class="intro">
+      <p class="eyebrow">Get in touch</p>
+      <h2 class="h2">Tell us what you need or what you grow.</h2>
+      <p class="lede">Processors: share your volumes and specifications. Farmers and co-ops: tell us what you produce and where.</p>
+    </div>
+    <div class="ways">
+      <div class="way"><div><p class="k">Email</p><p class="v" id="v-email">[hello@yourdomain.com]</p></div><button class="copy" type="button" data-copy="v-email">Copy</button></div>
+      <div class="way"><div><p class="k">WhatsApp</p><p class="v" id="v-wa">[+44 7xxx xxx xxx]</p></div><button class="copy" type="button" data-copy="v-wa">Copy</button></div>
+      <div class="way"><div><p class="k">LinkedIn</p><p class="v">[linkedin.com/in/yourname]</p></div></div>
+      <p class="reply">We reply within two working days. UK-based; Ghana is on UK time and Nigeria is one hour ahead.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="wordmark"><span class="agri">Agri-</span><span class="culture">Culture</span></p>
+    <p>© 2026 Agri-Culture · Connecting the people behind agriculture.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var el = document.getElementById(btn.getAttribute('data-copy'));
+    var text = el.textContent.trim();
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
+    var select = function () { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; };
+    try {
+      navigator.clipboard.writeText(text).then(done, select);
+    } catch (e) { select(); }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Supply Gap Assessment</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: two-column working tool — inputs left, live results right (sticky on desktop), stacking on phones. Agri-Culture brand: leaf green + oak brown on warm paper. */
+:root{
+  --ground:#F5F3EC; --paper:#FFFFFF; --line:#E2DDD0; --line-2:#D5CFC0;
+  --ink:#1E2A1F; --muted:#4A564B; --soft:#5E685F;
+  --leaf:#2F6B3A; --leaf-deep:#1F3D25; --leaf-tint:#EAF1E8; --leaf-mid:#8FBF8A;
+  --oak:#7A4E2A; --oak-tint:#F3EADF; --oak-light:#E6C9A6;
+  --warn:#B4651E; --warn-tint:#FBEBD9; --crit:#A3342B; --crit-tint:#F8E1DE;
+  --display:'Fraunces', Georgia, serif;
+  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--oak);outline-offset:2px}
+
+.top{padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));padding-block:28px 8px}
+.wrap{max-width:1240px;margin:0 auto}
+.brand{font-family:var(--display);font-weight:700;font-size:20px}
+.agri{color:var(--leaf)} .culture{color:var(--oak)}
+.top h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.4vw,44px);line-height:1.08;margin-top:10px;text-wrap:balance}
+.top .sub{color:var(--muted);max-width:66ch;margin-top:10px;font-size:17px}
+.example{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;font-size:14px;color:var(--soft)}
+.chip-note{background:var(--oak-tint);color:var(--oak);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.linkbtn{background:none;border:0;padding:0;color:var(--leaf);font-weight:700;text-decoration:underline;cursor:pointer;min-height:32px}
+
+.main{padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));padding-block:20px 64px}
+.grid{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.inputs{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:18px}
+.results{flex:1 1 360px;min-width:0;position:sticky;top:max(16px, env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:14px}
+@media (max-width:960px){.results{position:static}}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px}
+.card h2{font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px}
+.step{flex:none;width:28px;height:28px;border-radius:50%;background:var(--leaf-tint);color:var(--leaf);font-size:14px;display:flex;align-items:center;justify-content:center}
+.card .hint{color:var(--soft);font-size:14px;margin-top:4px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:13px;font-weight:700;color:var(--muted)}
+.field small{font-size:12px;color:var(--soft)}
+.input{min-height:46px;border:1px solid var(--line-2);border-radius:12px;padding:0 14px;background:var(--ground);width:100%;font-variant-numeric:tabular-nums}
+textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
+.unit{position:relative}
+.unit .input{padding-right:64px}
+.unit span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--soft);pointer-events:none}
+
+/* months */
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.months{overflow-x:auto;margin-top:14px}
+.mtable{border-collapse:separate;border-spacing:4px;min-width:640px;width:100%}
+.mtable th{font-size:12px;font-weight:700;color:var(--soft);text-align:center;padding:2px}
+.mtable th.row{text-align:left;font-size:13px;color:var(--muted);white-space:nowrap;padding-right:8px}
+.cell{width:100%;min-height:40px;border-radius:8px;border:1px solid var(--line-2);background:var(--ground);cursor:pointer;font-size:11px;font-weight:700;padding:0 2px}
+.d-1{background:var(--oak-light);border-color:var(--oak-light);color:#4A2F18}
+.d-2{background:var(--oak);border-color:var(--oak);color:#fff}
+.s-1{background:var(--warn-tint);border-color:#EBC59C;color:#7A3F0E}
+.s-2{background:var(--crit);border-color:var(--crit);color:#fff}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--paper);cursor:pointer;font-weight:600;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:#fff}
+
+/* results */
+.panel{background:var(--leaf-deep);color:#F5F3EC;border-radius:20px;padding:24px}
+.panel .k{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--oak-light)}
+.util{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.util b{font-family:var(--display);font-size:56px;line-height:1;font-variant-numeric:tabular-nums}
+.util span{color:#C9D1C7;font-size:15px}
+.bar{position:relative;height:16px;border-radius:999px;background:rgba(255,255,255,.12);margin-top:16px;overflow:hidden}
+.bar .fill{position:absolute;inset:0 auto 0 0;background:var(--leaf-mid);border-radius:999px;transition:width .3s ease}
+@media (prefers-reduced-motion: reduce){.bar .fill{transition:none}}
+.bar-labels{display:flex;justify-content:space-between;font-size:12px;color:#C9D1C7;margin-top:6px;font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px}
+.stat p{font-size:12px;color:#C9D1C7;font-weight:600}
+.stat b{display:block;font-size:20px;margin-top:4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat.big{grid-column:1/-1;background:rgba(230,201,166,.14);border-color:rgba(230,201,166,.35)}
+.stat.big b{font-size:26px;color:var(--oak-light)}
+
+.mini h3{font-size:15px;font-weight:800}
+.strip{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;margin-top:12px}
+.strip div{height:34px;border-radius:6px;background:var(--leaf-tint)}
+.strip div.w{background:var(--warn-tint)} .strip div.c{background:var(--crit)}
+.strip-l{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;margin-top:4px;font-size:10px;color:var(--soft);text-align:center}
+.mini p{margin-top:10px;font-size:14px;color:var(--muted)}
+.mini ul{margin:10px 0 0;padding-left:18px;font-size:14px;color:var(--muted)}
+
+.cta{display:flex;flex-direction:column;gap:10px}
+.btn{min-height:48px;border-radius:999px;border:0;background:var(--oak);color:#fff;font-weight:800;cursor:pointer;padding:0 22px}
+.btn:hover{background:#653F21}
+.btn.ghost{background:transparent;color:var(--leaf);border:1px solid var(--leaf-mid)}
+.sendto{font-size:14px;color:var(--muted)}
+.sendto b{color:var(--ink);user-select:all}
+#summary{width:100%;min-height:0;height:0;opacity:0;position:absolute;pointer-events:none}
+.status{font-size:13px;color:var(--leaf);font-weight:700;min-height:20px}
+.foot{font-size:12px;color:var(--soft)}
+</style>
+</head>
+<body style="margin:0">
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="https://www.agri-culture.uk" style="text-decoration:none"><span class="agri">Agri-</span><span class="culture">Culture</span></a> <a href="https://www.agri-culture.uk" style="font-size:14px;font-weight:700;margin-left:10px">← Back to site</a>
+    <h1>Supply Gap Assessment</h1>
+    <p class="sub">See how much capacity your plant loses to missing supply, when supply is hardest to get, and what standards a new supplier must meet. It takes about 5 minutes.</p>
+    <div class="example"><span class="chip-note" id="exNote">Example figures</span><span id="exText">Filled with a sample cassava starch plant. Replace them with your own.</span><button class="linkbtn" type="button" id="clearBtn">Clear all</button><button class="linkbtn" type="button" id="exBtn">Load example</button></div>
+  </div>
+</header>
+
+<main class="main">
+<div class="wrap grid">
+
+<section class="inputs" aria-label="Your plant">
+
+  <div class="card">
+    <h2><span class="step">1</span>Your plant</h2>
+    <div class="fields">
+      <div class="field"><label for="company">Company</label><input class="input" id="company" type="text" placeholder="e.g. Your company Ltd"></div>
+      <div class="field"><label for="location">Location (state)</label><input class="input" id="location" type="text" placeholder="e.g. Oyo"></div>
+      <div class="field"><label for="crop">Main raw material</label>
+        <select class="input" id="crop"><option>Cassava roots</option><option>Cassava chips</option><option>Maize</option><option>Soybean</option><option>Shea nuts</option><option>Cashew nuts</option><option>Other</option></select></div>
+      <div class="field"><label for="product">Main product</label>
+        <select class="input" id="product"><option>Starch</option><option>High-quality cassava flour</option><option>Garri</option><option>Ethanol</option><option>Sorbitol / glucose</option><option>Animal feed</option><option>Other</option></select></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">2</span>Capacity and intake</h2>
+    <p class="hint">Use tonnes of raw material per week.</p>
+    <div class="fields">
+      <div class="field"><label for="capacity">What your plant could process</label><div class="unit"><input class="input" id="capacity" type="number" min="0" inputmode="decimal"><span>t / week</span></div></div>
+      <div class="field"><label for="intake">What you actually receive</label><div class="unit"><input class="input" id="intake" type="number" min="0" inputmode="decimal"><span>t / week</span></div></div>
+      <div class="field"><label for="weeks">Operating weeks a year</label><div class="unit"><input class="input" id="weeks" type="number" min="1" max="52" inputmode="numeric"><span>weeks</span></div></div>
+      <div class="field"><label for="yield">Output per tonne of raw material</label><div class="unit"><input class="input" id="yield" type="number" min="0" max="100" step="0.5" inputmode="decimal"><span>%</span></div><small>Your conversion rate, e.g. tonnes of starch per tonne of roots</small></div>
+      <div class="field"><label for="margin">Profit per tonne of finished product</label><div class="unit"><input class="input" id="margin" type="number" min="0" inputmode="decimal"><span>₦ / t</span></div><small>Optional. Used to estimate lost profit</small></div>
+      <div class="field"><label for="price">Price you pay for raw material</label><div class="unit"><input class="input" id="price" type="number" min="0" inputmode="decimal"><span>₦ / t</span></div><small>Optional</small></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">3</span>Quality you require</h2>
+    <p class="hint">What a supplier must meet before you'll accept a delivery.</p>
+    <div class="fields">
+      <div class="field"><label for="starch">Minimum starch / dry matter</label><div class="unit"><input class="input" id="starch" type="number" min="0" max="100" inputmode="decimal"><span>%</span></div></div>
+      <div class="field"><label for="hours">Max time from harvest to gate</label><div class="unit"><input class="input" id="hours" type="number" min="0" inputmode="numeric"><span>hours</span></div></div>
+      <div class="field"><label for="age">Root age at harvest</label><div class="unit"><input class="input" id="age" type="text" placeholder="e.g. 10–14"><span>months</span></div></div>
+      <div class="field"><label for="varieties">Preferred varieties</label><input class="input" id="varieties" type="text" placeholder="e.g. TME 419"></div>
+      <div class="field"><label for="minload">Minimum delivery size</label><div class="unit"><input class="input" id="minload" type="number" min="0" inputmode="decimal"><span>t / load</span></div></div>
+      <div class="field"><label for="payment">How you pay suppliers</label>
+        <select class="input" id="payment"><option>On delivery</option><option>Within 7 days</option><option>Within 14 days</option><option>Within 30 days</option><option>Other</option></select></div>
+    </div>
+    <div class="field" style="margin-top:14px"><label for="quality">Other standards or reasons you reject loads</label><textarea class="input" id="quality" placeholder="e.g. no rotten or broken roots, no stems or soil, bagged"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">4</span>Seasons</h2>
+    <p class="hint">Tap a month to change it. Mark when you need more supply and when supply is hard to get.</p>
+    <div class="legend">
+      <span><i style="background:var(--ground);border:1px solid var(--line-2)"></i>Normal</span>
+      <span><i style="background:var(--oak-light)"></i>Higher demand</span>
+      <span><i style="background:var(--oak)"></i>Peak demand</span>
+      <span><i style="background:var(--warn-tint);border:1px solid #EBC59C"></i>Supply tight</span>
+      <span><i style="background:var(--crit)"></i>Supply very tight</span>
+    </div>
+    <div class="months">
+      <table class="mtable">
+        <thead><tr><th></th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr></thead>
+        <tbody>
+          <tr id="demandRow"><th class="row" scope="row">Your demand</th></tr>
+          <tr id="supplyRow"><th class="row" scope="row">Supply available</th></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">5</span>What else are you short of?</h2>
+    <p class="hint">Other raw materials, inputs or services you struggle to source.</p>
+    <div class="chips" id="needs"></div>
+    <div class="field" style="margin-top:14px"><label for="otherNeeds">Anything else</label><input class="input" id="otherNeeds" type="text" placeholder="e.g. HDPE bags, cassava stems for outgrowers"></div>
+  </div>
+
+</section>
+
+<aside class="results" aria-label="Your supply gap" aria-live="polite">
+  <div class="panel">
+    <p class="k">Capacity in use</p>
+    <div class="util"><b id="utilPct">0%</b><span id="utilText">of what your plant could process</span></div>
+    <div class="bar" aria-hidden="true"><div class="fill" id="utilFill" style="width:0%"></div></div>
+    <div class="bar-labels"><span id="intakeLbl">0 t received</span><span id="capLbl">0 t capacity</span></div>
+    <div class="stats">
+      <div class="stat big"><p>Supply shortfall</p><b id="gapWeek">0 t / week</b></div>
+      <div class="stat"><p>Shortfall per year</p><b id="gapYear">0 t</b></div>
+      <div class="stat"><p>Output lost per year</p><b id="outLost">0 t</b></div>
+      <div class="stat"><p>Profit lost per year</p><b id="profitLost">—</b></div>
+      <div class="stat"><p>Supply to fill gap</p><b id="spend">—</b></div>
+    </div>
+  </div>
+
+  <div class="card mini">
+    <h3>Your critical months</h3>
+    <div class="strip" id="strip" aria-hidden="true"></div>
+    <div class="strip-l" aria-hidden="true"><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span></div>
+    <p id="critText">Mark your seasons to see where demand and scarcity overlap.</p>
+  </div>
+
+  <div class="card mini">
+    <h3>Supplier brief</h3>
+    <ul id="brief"></ul>
+  </div>
+
+  <div class="card cta">
+    <button class="btn" type="button" id="copyBtn">Copy my results</button>
+    <p class="status" id="status" role="status"></p>
+    <p class="sendto">Paste them into an email or WhatsApp to <b>[hello@agri-culture.uk]</b>. We'll come back with suppliers that match.</p>
+    <p class="foot">Nothing you type here is sent anywhere until you copy and share it.</p>
+  </div>
+  <textarea id="summary" aria-hidden="true" tabindex="-1" readonly></textarea>
+</aside>
+
+</div>
+</main>
+
+<script>
+(function(){
+  var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var NEEDS=['Maize','Sorghum','Soybean','Yellow cassava','Cassava chips','Cassava stems','Packaging / bags','Trucks / transport','Storage','Enzymes / chemicals','Diesel / energy','Seasonal labour','Supplier finance'];
+  var D_LABEL=['','High','Peak'], S_LABEL=['','Tight','V. tight'];
+  var EXAMPLE={company:'Example Starch Ltd',location:'Oyo',crop:'Cassava roots',product:'Starch',capacity:1000,intake:380,weeks:48,yield:22,margin:180000,price:65000,starch:28,hours:24,age:'10–14',varieties:'TME 419, TMS 30572',minload:20,payment:'Within 7 days',quality:'No rotten or broken roots; minimal soil and stems.',demand:[1,1,0,0,0,0,0,0,1,2,2,2],supply:[2,2,2,1,0,0,1,0,0,0,0,1],needs:['Packaging / bags','Trucks / transport','Cassava stems'],otherNeeds:''};
+  var BLANK={company:'',location:'',crop:'Cassava roots',product:'Starch',capacity:'',intake:'',weeks:'',yield:'',margin:'',price:'',starch:'',hours:'',age:'',varieties:'',minload:'',payment:'On delivery',quality:'',demand:[0,0,0,0,0,0,0,0,0,0,0,0],supply:[0,0,0,0,0,0,0,0,0,0,0,0],needs:[],otherNeeds:''};
+  var FIELDS=['company','location','crop','product','capacity','intake','weeks','yield','margin','price','starch','hours','age','varieties','minload','payment','quality','otherNeeds'];
+  var state, isExample;
+  var $=function(id){return document.getElementById(id);};
+  var nf=new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
+  function num(v){var n=parseFloat(v);return isFinite(n)?n:0;}
+  function naira(n){if(n>=1e9)return '₦'+(n/1e9).toFixed(1)+'bn';if(n>=1e6)return '₦'+(n/1e6).toFixed(1)+'m';return '₦'+nf.format(n);}
+
+  function save(){try{localStorage.setItem('ac-gap',JSON.stringify({s:state,e:isExample}));}catch(e){}}
+  function load(){try{var r=JSON.parse(localStorage.getItem('ac-gap'));if(r&&r.s){state=r.s;isExample=!!r.e;return;}}catch(e){}state=JSON.parse(JSON.stringify(EXAMPLE));isExample=true;}
+
+  function buildMonths(){
+    ['demand','supply'].forEach(function(kind){
+      var row=$(kind+'Row');
+      while(row.children.length>1)row.removeChild(row.lastChild);
+      MONTHS.forEach(function(m,i){
+        var td=document.createElement('td');var b=document.createElement('button');
+        b.type='button';b.className='cell';b.dataset.kind=kind;b.dataset.i=i;
+        b.addEventListener('click',function(){state[kind][i]=(state[kind][i]+1)%3;markEdited();paintMonths();update();});
+        td.appendChild(b);row.appendChild(td);
+      });
+    });
+  }
+  function paintMonths(){
+    document.querySelectorAll('.cell').forEach(function(b){
+      var kind=b.dataset.kind,i=+b.dataset.i,v=state[kind][i];
+      b.className='cell'+(v?(' '+(kind==='demand'?'d-':'s-')+v):'');
+      b.textContent=v?(kind==='demand'?D_LABEL[v]:S_LABEL[v]):'';
+      var lbl=kind==='demand'?['normal demand','higher demand','peak demand'][v]:['supply normal','supply tight','supply very tight'][v];
+      b.setAttribute('aria-label',MONTHS[i]+': '+lbl);
+    });
+  }
+  function buildNeeds(){
+    var box=$('needs');box.innerHTML='';
+    NEEDS.forEach(function(n){
+      var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=n;
+      b.setAttribute('aria-pressed',state.needs.indexOf(n)>-1?'true':'false');
+      b.addEventListener('click',function(){var k=state.needs.indexOf(n);if(k>-1)state.needs.splice(k,1);else state.needs.push(n);b.setAttribute('aria-pressed',k>-1?'false':'true');markEdited();update();});
+      box.appendChild(b);
+    });
+  }
+  function fillFields(){FIELDS.forEach(function(f){$(f).value=state[f]===undefined?'':state[f];});}
+  function markEdited(){if(isExample){isExample=false;setNote();}}
+  function setNote(){$('exNote').hidden=!isExample;$('exText').textContent=isExample?'Filled with a sample cassava starch plant. Replace them with your own.':'Your figures.';}
+
+  function update(){
+    var cap=num(state.capacity),inn=num(state.intake),wk=num(state.weeks)||52,y=num(state.yield)/100,m=num(state.margin),p=num(state.price);
+    var util=cap>0?Math.min(100,inn/cap*100):0;
+    var gap=Math.max(0,cap-inn),gapY=gap*wk,outL=gapY*y;
+    $('utilPct').textContent=Math.round(util)+'%';
+    $('utilFill').style.width=util+'%';
+    $('intakeLbl').textContent=nf.format(inn)+' t received';
+    $('capLbl').textContent=nf.format(cap)+' t capacity';
+    $('gapWeek').textContent=nf.format(gap)+' t / week';
+    $('gapYear').textContent=nf.format(gapY)+' t';
+    $('outLost').textContent=y?nf.format(outL)+' t':'—';
+    $('profitLost').textContent=(m&&y)?naira(outL*m):'—';
+    $('spend').textContent=p?naira(gapY*p)+' / yr':'—';
+
+    var strip=$('strip');strip.innerHTML='';var crit=[],warn=[];
+    for(var i=0;i<12;i++){var d=state.demand[i],s=state.supply[i],el=document.createElement('div');
+      if(d>0&&s>0){el.className='c';crit.push(MONTHS[i]);}else if(s>0||d>0){el.className='w';if(s>0)warn.push(MONTHS[i]);}
+      strip.appendChild(el);}
+    $('critText').textContent=crit.length?('You need more supply exactly when it is hardest to get in '+crit.join(', ')+'. These months are where a new supplier helps most.'):(warn.length?('Supply gets tight in '+warn.join(', ')+'.'):'Mark your seasons to see where demand and scarcity overlap.');
+
+    var b=[];
+    if(cap)b.push(nf.format(gap)+' t a week of '+state.crop.toLowerCase()+' to reach full capacity');
+    if(num(state.starch))b.push('At least '+state.starch+'% starch / dry matter');
+    if(num(state.hours))b.push('Delivered within '+state.hours+' hours of harvest');
+    if(state.age)b.push('Roots '+state.age+' months old');
+    if(state.varieties)b.push('Varieties: '+state.varieties);
+    if(num(state.minload))b.push('Loads of '+state.minload+' t or more');
+    b.push('Paid '+state.payment.toLowerCase());
+    var ul=$('brief');ul.innerHTML='';b.forEach(function(t){var li=document.createElement('li');li.textContent=t;ul.appendChild(li);});
+
+    var lines=['AGRI-CULTURE SUPPLY GAP ASSESSMENT',
+      'Company: '+(state.company||'-')+(state.location?' ('+state.location+')':''),
+      'Raw material: '+state.crop+' | Product: '+state.product,
+      '',
+      'Capacity: '+nf.format(cap)+' t/week | Receiving: '+nf.format(inn)+' t/week ('+Math.round(util)+'% in use)',
+      'Shortfall: '+nf.format(gap)+' t/week, '+nf.format(gapY)+' t/year over '+wk+' weeks'];
+    if(y)lines.push('Output lost: '+nf.format(outL)+' t/year at '+state.yield+'% conversion');
+    if(m&&y)lines.push('Estimated profit lost: '+naira(outL*m)+'/year');
+    lines.push('','QUALITY');b.slice(1).forEach(function(t){lines.push('- '+t);});
+    if(state.quality)lines.push('- '+state.quality);
+    lines.push('','SEASONS');
+    lines.push('Higher demand: '+(MONTHS.filter(function(_,i){return state.demand[i]>0;}).join(', ')||'none marked'));
+    lines.push('Supply tight: '+(MONTHS.filter(function(_,i){return state.supply[i]>0;}).join(', ')||'none marked'));
+    if(crit.length)lines.push('Critical (both): '+crit.join(', '));
+    var other=state.needs.slice();if(state.otherNeeds)other.push(state.otherNeeds);
+    lines.push('','ALSO SHORT OF: '+(other.join(', ')||'nothing marked'));
+    $('summary').value=lines.join('\n');
+    save();
+  }
+
+  FIELDS.forEach(function(f){var el=$(f);el.addEventListener('input',function(){state[f]=el.value;markEdited();update();});});
+  $('clearBtn').addEventListener('click',function(){state=JSON.parse(JSON.stringify(BLANK));isExample=false;fillFields();buildNeeds();paintMonths();setNote();update();$('capacity').focus();});
+  $('exBtn').addEventListener('click',function(){state=JSON.parse(JSON.stringify(EXAMPLE));isExample=true;fillFields();buildNeeds();paintMonths();setNote();update();});
+  $('copyBtn').addEventListener('click',function(){
+    var t=$('summary').value,st=$('status');
+    function fallback(){var ta=$('summary');ta.style.height='160px';ta.style.opacity='1';ta.style.position='static';ta.style.pointerEvents='auto';ta.removeAttribute('aria-hidden');ta.focus();ta.select();st.textContent='Press Ctrl+C or Cmd+C to copy.';}
+    try{navigator.clipboard.writeText(t).then(function(){st.textContent='Copied. Paste it into your email or WhatsApp.';},fallback);}catch(e){fallback();}
+  });
+
+  load();buildMonths();buildNeeds();fillFields();paintMonths();setNote();update();
+})();
+</script>
+</body>
+</html>
