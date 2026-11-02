@@ -116,7 +116,7 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
     <a class="brand" href="https://www.agri-culture.uk" style="text-decoration:none"><span class="agri">Agri-</span><span class="culture">Culture</span></a> <a href="https://www.agri-culture.uk" style="font-size:14px;font-weight:700;margin-left:10px">← Back to site</a>
     <h1>Supply Gap Assessment</h1>
     <p class="sub">See how much capacity your plant loses to missing supply, when supply is hardest to get, and what standards a new supplier must meet. It takes about 5 minutes.</p>
-    <div class="example"><span class="chip-note" id="exNote">Example figures</span><span id="exText">Filled with a sample cassava starch plant. Replace them with your own.</span><button class="linkbtn" type="button" id="clearBtn">Clear all</button><button class="linkbtn" type="button" id="exBtn">Load example</button></div>
+    <div class="example"><span class="chip-note" id="exNote">Example figures</span><span id="exText">Filled with a sample processing plant. Replace them with your own.</span><button class="linkbtn" type="button" id="clearBtn">Clear all</button><button class="linkbtn" type="button" id="exBtn">Load example</button></div>
   </div>
 </header>
 
@@ -130,14 +130,14 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
     <div class="fields">
       <div class="field"><label for="company">Company</label><input class="input" id="company" type="text" placeholder="e.g. Your company Ltd"></div>
       <div class="field"><label for="country">Country</label>
-        <select class="input" id="country"><option>Nigeria</option><option>Ghana</option><option>Côte d’Ivoire</option><option>Other</option></select></div>
-      <div class="field"><label for="location">State / region</label><input class="input" id="location" type="text" placeholder="e.g. Oyo or Bono East"></div>
+        <select class="input" id="country"><option>Benin</option><option>Burkina Faso</option><option>Cameroon</option><option>Côte d’Ivoire</option><option>Egypt</option><option>Ethiopia</option><option>Ghana</option><option>Kenya</option><option>Malawi</option><option>Mali</option><option>Morocco</option><option>Mozambique</option><option>Nigeria</option><option>Rwanda</option><option>Senegal</option><option>Sierra Leone</option><option>South Africa</option><option>Tanzania</option><option>Togo</option><option>Uganda</option><option>Zambia</option><option>Zimbabwe</option><option>Other African country</option></select></div>
+      <div class="field"><label for="location">State / region</label><input class="input" id="location" type="text" placeholder="e.g. your state, region or province"></div>
       <div class="field"><label for="currency">Currency</label>
-        <select class="input" id="currency"><option value="NGN">Nigerian naira (₦)</option><option value="GHS">Ghanaian cedi (GH₵)</option><option value="XOF">West African CFA franc (CFA)</option><option value="USD">US dollar ($)</option><option value="GBP">British pound (£)</option></select></div>
+        <select class="input" id="currency"><option value="NGN">Nigerian naira (₦)</option><option value="GHS">Ghanaian cedi (GH₵)</option><option value="XOF">West African CFA franc (CFA)</option><option value="XAF">Central African CFA franc (FCFA)</option><option value="KES">Kenyan shilling (KSh)</option><option value="UGX">Ugandan shilling (USh)</option><option value="TZS">Tanzanian shilling (TSh)</option><option value="RWF">Rwandan franc (FRw)</option><option value="ETB">Ethiopian birr (Br)</option><option value="ZAR">South African rand (R)</option><option value="ZMW">Zambian kwacha (K)</option><option value="MWK">Malawian kwacha (MK)</option><option value="MZN">Mozambican metical (MT)</option><option value="SLE">Sierra Leonean leone (Le)</option><option value="EGP">Egyptian pound (E£)</option><option value="MAD">Moroccan dirham (MAD)</option><option value="USD">US dollar ($)</option><option value="EUR">Euro (€)</option><option value="GBP">British pound (£)</option></select></div>
       <div class="field"><label for="crop">Main raw material</label>
-        <select class="input" id="crop"><option>Cassava roots</option><option>Cassava chips</option><option>Maize</option><option>Soybean</option><option>Shea nuts</option><option>Cashew nuts</option><option>Other</option></select></div>
+        <input class="input" id="crop" type="text" list="cropList" placeholder="e.g. maize, cocoa, cassava, coffee"><datalist id="cropList"><option>Cassava</option><option>Cashew nuts</option><option>Cocoa beans</option><option>Coffee</option><option>Groundnuts</option><option>Maize</option><option>Mango</option><option>Palm fruit</option><option>Rice (paddy)</option><option>Sesame</option><option>Shea nuts</option><option>Sorghum</option><option>Soybean</option><option>Tomatoes</option></datalist></div>
       <div class="field"><label for="product">Main product</label>
-        <select class="input" id="product"><option>Starch</option><option>High-quality cassava flour</option><option>Garri</option><option>Ethanol</option><option>Sorbitol / glucose</option><option>Animal feed</option><option>Other</option></select></div>
+        <input class="input" id="product" type="text" list="productList" placeholder="e.g. flour, oil, feed, juice"><datalist id="productList"><option>Animal feed</option><option>Butter / fats</option><option>Dried fruit</option><option>Ethanol</option><option>Flour</option><option>Juice / concentrate</option><option>Milled rice</option><option>Nut kernels</option><option>Paste / puree</option><option>Roasted coffee</option><option>Starch</option><option>Vegetable oil</option></datalist></div>
     </div>
   </div>
 
@@ -148,7 +148,7 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
       <div class="field"><label for="capacity">What your plant could process</label><div class="unit"><input class="input" id="capacity" type="number" min="0" inputmode="decimal"><span>t / week</span></div></div>
       <div class="field"><label for="intake">What you actually receive</label><div class="unit"><input class="input" id="intake" type="number" min="0" inputmode="decimal"><span>t / week</span></div></div>
       <div class="field"><label for="weeks">Operating weeks a year</label><div class="unit"><input class="input" id="weeks" type="number" min="1" max="52" inputmode="numeric"><span>weeks</span></div></div>
-      <div class="field"><label for="yield">Output per tonne of raw material</label><div class="unit"><input class="input" id="yield" type="number" min="0" max="100" step="0.5" inputmode="decimal"><span>%</span></div><small>Your conversion rate, e.g. tonnes of starch per tonne of roots</small></div>
+      <div class="field"><label for="yield">Output per tonne of raw material</label><div class="unit"><input class="input" id="yield" type="number" min="0" max="100" step="0.5" inputmode="decimal"><span>%</span></div><small>Your conversion rate, e.g. tonnes of product per tonne of raw material</small></div>
       <div class="field"><label for="margin">Profit per tonne of finished product</label><div class="unit"><input class="input" id="margin" type="number" min="0" inputmode="decimal"><span class="cur-unit">₦ / t</span></div><small>Optional. Used to estimate lost profit</small></div>
       <div class="field"><label for="price">Price you pay for raw material</label><div class="unit"><input class="input" id="price" type="number" min="0" inputmode="decimal"><span class="cur-unit">₦ / t</span></div><small>Optional</small></div>
     </div>
@@ -158,15 +158,15 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
     <h2><span class="step">3</span>Quality you require</h2>
     <p class="hint">What a supplier must meet before you'll accept a delivery.</p>
     <div class="fields">
-      <div class="field"><label for="starch">Minimum starch / dry matter</label><div class="unit"><input class="input" id="starch" type="number" min="0" max="100" inputmode="decimal"><span>%</span></div></div>
+      <div class="field"><label for="starch">Key quality measure</label><input class="input" id="starch" type="text" placeholder="e.g. ≥28% starch, ≤12% moisture, grade A"></div>
       <div class="field"><label for="hours">Max time from harvest to gate</label><div class="unit"><input class="input" id="hours" type="number" min="0" inputmode="numeric"><span>hours</span></div></div>
-      <div class="field"><label for="age">Root age at harvest</label><div class="unit"><input class="input" id="age" type="text" placeholder="e.g. 10–14"><span>months</span></div></div>
-      <div class="field"><label for="varieties">Preferred varieties</label><input class="input" id="varieties" type="text" placeholder="e.g. TME 419"></div>
+      <div class="field"><label for="age">Maturity / age at harvest</label><input class="input" id="age" type="text" placeholder="e.g. 10–14 months, fully ripe"></div>
+      <div class="field"><label for="varieties">Preferred varieties</label><input class="input" id="varieties" type="text" placeholder="e.g. your preferred variety"></div>
       <div class="field"><label for="minload">Minimum delivery size</label><div class="unit"><input class="input" id="minload" type="number" min="0" inputmode="decimal"><span>t / load</span></div></div>
       <div class="field"><label for="payment">How you pay suppliers</label>
         <select class="input" id="payment"><option>On delivery</option><option>Within 7 days</option><option>Within 14 days</option><option>Within 30 days</option><option>Other</option></select></div>
     </div>
-    <div class="field" style="margin-top:14px"><label for="quality">Other standards or reasons you reject loads</label><textarea class="input" id="quality" placeholder="e.g. no rotten or broken roots, no stems or soil, bagged"></textarea></div>
+    <div class="field" style="margin-top:14px"><label for="quality">Other standards or reasons you reject loads</label><textarea class="input" id="quality" placeholder="e.g. no mould, damage or foreign matter, bagged"></textarea></div>
   </div>
 
   <div class="card">
@@ -194,7 +194,7 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
     <h2><span class="step">5</span>What else are you short of?</h2>
     <p class="hint">Other raw materials, inputs or services you struggle to source.</p>
     <div class="chips" id="needs"></div>
-    <div class="field" style="margin-top:14px"><label for="otherNeeds">Anything else</label><input class="input" id="otherNeeds" type="text" placeholder="e.g. HDPE bags, cassava stems for outgrowers"></div>
+    <div class="field" style="margin-top:14px"><label for="otherNeeds">Anything else</label><input class="input" id="otherNeeds" type="text" placeholder="e.g. a second crop, specialist packaging"></div>
   </div>
 
 </section>
@@ -241,12 +241,12 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
 <script>
 (function(){
   var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var NEEDS=['Maize','Sorghum','Soybean','Yellow cassava','Cassava chips','Cassava stems','Packaging / bags','Trucks / transport','Storage','Enzymes / chemicals','Diesel / energy','Seasonal labour','Supplier finance'];
+  var NEEDS=['Other raw materials','Seeds / planting material','Packaging / bags','Trucks / transport','Cold storage','Warehousing','Processing chemicals','Diesel / energy','Seasonal labour','Testing / certification','Supplier finance'];
   var D_LABEL=['','High','Peak'], S_LABEL=['','Tight','V. tight'];
-  var CUR={NGN:'₦',GHS:'GH₵',XOF:'CFA ',USD:'$',GBP:'£'};
-  var COUNTRY_CUR={'Nigeria':'NGN','Ghana':'GHS','Côte d’Ivoire':'XOF'};
-  var EXAMPLE={company:'Example Starch Ltd',country:'Nigeria',currency:'NGN',location:'Oyo',crop:'Cassava roots',product:'Starch',capacity:1000,intake:380,weeks:48,yield:22,margin:180000,price:65000,starch:28,hours:24,age:'10–14',varieties:'TME 419, TMS 30572',minload:20,payment:'Within 7 days',quality:'No rotten or broken roots; minimal soil and stems.',demand:[1,1,0,0,0,0,0,0,1,2,2,2],supply:[2,2,2,1,0,0,1,0,0,0,0,1],needs:['Packaging / bags','Trucks / transport','Cassava stems'],otherNeeds:''};
-  var BLANK={company:'',country:'Nigeria',currency:'NGN',location:'',crop:'Cassava roots',product:'Starch',capacity:'',intake:'',weeks:'',yield:'',margin:'',price:'',starch:'',hours:'',age:'',varieties:'',minload:'',payment:'On delivery',quality:'',demand:[0,0,0,0,0,0,0,0,0,0,0,0],supply:[0,0,0,0,0,0,0,0,0,0,0,0],needs:[],otherNeeds:''};
+  var CUR={NGN:'₦',GHS:'GH₵',XOF:'CFA ',XAF:'FCFA ',KES:'KSh ',UGX:'USh ',TZS:'TSh ',RWF:'FRw ',ETB:'Br ',ZAR:'R ',ZMW:'K ',MWK:'MK ',MZN:'MT ',SLE:'Le ',EGP:'E£',MAD:'MAD ',USD:'$',EUR:'€',GBP:'£'};
+  var COUNTRY_CUR={'Nigeria':'NGN','Ghana':'GHS','Côte d’Ivoire':'XOF','Senegal':'XOF','Benin':'XOF','Burkina Faso':'XOF','Mali':'XOF','Togo':'XOF','Cameroon':'XAF','Kenya':'KES','Uganda':'UGX','Tanzania':'TZS','Rwanda':'RWF','Ethiopia':'ETB','South Africa':'ZAR','Zambia':'ZMW','Malawi':'MWK','Mozambique':'MZN','Sierra Leone':'SLE','Egypt':'EGP','Morocco':'MAD','Zimbabwe':'USD'};
+  var EXAMPLE={company:'Example Starch Ltd',country:'Nigeria',currency:'NGN',location:'Oyo',crop:'Cassava',product:'Starch',capacity:1000,intake:380,weeks:48,yield:22,margin:180000,price:65000,starch:'≥28% starch',hours:24,age:'10–14 months',varieties:'TME 419, TMS 30572',minload:20,payment:'Within 7 days',quality:'No rotten or broken roots; minimal soil and stems.',demand:[1,1,0,0,0,0,0,0,1,2,2,2],supply:[2,2,2,1,0,0,1,0,0,0,0,1],needs:['Packaging / bags','Trucks / transport','Cassava stems'],otherNeeds:''};
+  var BLANK={company:'',country:'Ghana',currency:'GHS',location:'',crop:'',product:'',capacity:'',intake:'',weeks:'',yield:'',margin:'',price:'',starch:'',hours:'',age:'',varieties:'',minload:'',payment:'On delivery',quality:'',demand:[0,0,0,0,0,0,0,0,0,0,0,0],supply:[0,0,0,0,0,0,0,0,0,0,0,0],needs:[],otherNeeds:''};
   var FIELDS=['company','country','currency','location','crop','product','capacity','intake','weeks','yield','margin','price','starch','hours','age','varieties','minload','payment','quality','otherNeeds'];
   var state, isExample;
   var $=function(id){return document.getElementById(id);};
@@ -255,8 +255,8 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
   function sym(){return CUR[state.currency]||'₦';}
   function naira(n){var s=sym();if(n>=1e9)return s+(n/1e9).toFixed(1)+'bn';if(n>=1e6)return s+(n/1e6).toFixed(1)+'m';return s+nf.format(n);}
 
-  function save(){try{localStorage.setItem('ac-gap',JSON.stringify({s:state,e:isExample}));}catch(e){}}
-  function load(){try{var r=JSON.parse(localStorage.getItem('ac-gap'));if(r&&r.s){state=r.s;isExample=!!r.e;return;}}catch(e){}state=JSON.parse(JSON.stringify(EXAMPLE));isExample=true;}
+  function save(){try{localStorage.setItem('ac-gap2',JSON.stringify({s:state,e:isExample}));}catch(e){}}
+  function load(){try{var r=JSON.parse(localStorage.getItem('ac-gap2'));if(r&&r.s){state=r.s;isExample=!!r.e;return;}}catch(e){}state=JSON.parse(JSON.stringify(EXAMPLE));isExample=true;}
 
   function buildMonths(){
     ['demand','supply'].forEach(function(kind){
@@ -290,7 +290,7 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
   }
   function fillFields(){FIELDS.forEach(function(f){$(f).value=state[f]===undefined?'':state[f];});}
   function markEdited(){if(isExample){isExample=false;setNote();}}
-  function setNote(){$('exNote').hidden=!isExample;$('exText').textContent=isExample?'Filled with a sample cassava starch plant. Replace them with your own.':'Your figures.';}
+  function setNote(){$('exNote').hidden=!isExample;$('exText').textContent=isExample?'Filled with a sample processing plant. Replace them with your own.':'Your figures.';}
 
   function update(){
     var cap=num(state.capacity),inn=num(state.intake),wk=num(state.weeks)||52,y=num(state.yield)/100,m=num(state.margin),p=num(state.price);
@@ -314,10 +314,10 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
     $('critText').textContent=crit.length?('You need more supply exactly when it is hardest to get in '+crit.join(', ')+'. These months are where a new supplier helps most.'):(warn.length?('Supply gets tight in '+warn.join(', ')+'.'):'Mark your seasons to see where demand and scarcity overlap.');
 
     var b=[];
-    if(cap)b.push(nf.format(gap)+' t a week of '+state.crop.toLowerCase()+' to reach full capacity');
-    if(num(state.starch))b.push('At least '+state.starch+'% starch / dry matter');
+    if(cap)b.push(nf.format(gap)+' t a week of '+(state.crop||'raw material').toLowerCase()+' to reach full capacity');
+    if(state.starch)b.push('Quality: '+state.starch);
     if(num(state.hours))b.push('Delivered within '+state.hours+' hours of harvest');
-    if(state.age)b.push('Roots '+state.age+' months old');
+    if(state.age)b.push('Maturity: '+state.age);
     if(state.varieties)b.push('Varieties: '+state.varieties);
     if(num(state.minload))b.push('Loads of '+state.minload+' t or more');
     b.push('Paid '+state.payment.toLowerCase());
@@ -326,7 +326,7 @@ textarea.input{padding:12px 14px;min-height:80px;resize:vertical}
     var lines=['AGRI-CULTURE SUPPLY GAP ASSESSMENT',
       'Company: '+(state.company||'-')+' | '+[state.location,state.country].filter(Boolean).join(', '),
       'Currency: '+state.currency,
-      'Raw material: '+state.crop+' | Product: '+state.product,
+      'Raw material: '+(state.crop||'-')+' | Product: '+(state.product||'-'),
       '',
       'Capacity: '+nf.format(cap)+' t/week | Receiving: '+nf.format(inn)+' t/week ('+Math.round(util)+'% in use)',
       'Shortfall: '+nf.format(gap)+' t/week, '+nf.format(gapY)+' t/year over '+wk+' weeks'];
